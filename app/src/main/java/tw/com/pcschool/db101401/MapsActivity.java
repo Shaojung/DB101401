@@ -1,5 +1,6 @@
 package tw.com.pcschool.db101401;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -9,8 +10,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -50,13 +53,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tpe1, 12));
         // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(tpe1, 12), 5000, null);
         CameraPosition cameraPos = new CameraPosition.Builder().target(tpe1)
-                .zoom(17.0f).bearing(300).tilt(67).build();
+                .zoom(12.0f).build();
         // 定義地圖相機鏡頭移動
         CameraUpdate cameraUpt = CameraUpdateFactory
                 .newCameraPosition(cameraPos);
         // 地圖相機鏡頭動畫行程設定
         mMap.animateCamera(cameraUpt, 10000, null);
 
+        PolylineOptions options = new PolylineOptions();
+        options.add(tpe1, tpe2);
+        options.width(5);
+        options.color(Color.MAGENTA);
+        options.zIndex(1); // 疊層id( 數字越高圖層越上層)
+        mMap.addPolyline(options);
 
+        CircleOptions options2 = new CircleOptions();
+        options2.center(tpe1); // 圓心位置
+        options2.radius(200); // 半徑( 公尺)
+        options2.strokeWidth(5); // 圓形外框寬度
+        options2.strokeColor(Color.TRANSPARENT); // 圓形外框顏色
+        options2.fillColor(Color.argb(150, 255, 0, 0));
+        options.zIndex(3); // 疊層id( 數字越高圖層越上層)
+        mMap.addCircle(options2);
     }
 }
